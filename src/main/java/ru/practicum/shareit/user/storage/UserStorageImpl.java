@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 @Slf4j
 public class UserStorageImpl implements UserStorage {
     private final Map<Long, User> users = new HashMap<>();
     private final Map<String, User> usersEmail = new HashMap<>();
-    private int id = 1;
+    private final AtomicLong id = new AtomicLong(1);
 
     @Override
     public List<User> getUsers() {
@@ -26,62 +27,69 @@ public class UserStorageImpl implements UserStorage {
 
     @Override
     public User getUserById(Long id) {
+        log.info("Получен запрос на вывод пользователя по id {}", id);
         User user = checkUserAvailability("найти", id);
-        log.info("Получен запрос на вывод пользователя по id");
+        log.info("Пользователь с id {} найден", id);
         return user;
     }
 
     @Override
     public void addUser(User user) {
-        isExist(user.getEmail());
-        user.setId(getId());
+        log.info("Получен запрос на добавление пользователя");
+        checkEmailUniqueness(user.getEmail());
+        user.setId(generateId());
         users.put(user.getId(), user);
         usersEmail.put(user.getEmail(), user);
-        log.info("Получен запрос на добавление пользователя");
+        log.info("Пользователь с id {} успешно добавлен", user.getId());
     }
 
     @Override
     public void updateUser(User user) {
-        User exsistingsUser = checkUserAvailability("изменить", user.getId());
-        String email = exsistingsUser.getEmail();
+        log.info("Получен запрос на изменение пользователя с id {}", user.getId());
+        User existingUser = checkUserAvailability("изменить", user.getId());
+        String oldEmail = existingUser.getEmail();
+
         if (user.getName() != null && !user.getName().isBlank()) {
-            exsistingsUser.setName(user.getName());
+            existingUser.setName(user.getName());
         }
-        if (user.getEmail() != null) {
-            isExist(user.getEmail());
-            exsistingsUser.setEmail(user.getEmail());
-            usersEmail.remove(email);
-            usersEmail.put(exsistingsUser.getEmail(), exsistingsUser);
+        if (user.getEmail() != null && !user.getEmail().equals(oldEmail)) {
+            checkEmailUniqueness(user.getEmail());
+            existingUser.setEmail(user.getEmail());
+            usersEmail.remove(oldEmail);
+            usersEmail.put(existingUser.getEmail(), existingUser);
         }
-        log.info("Получен запрос на изменение пользователя");
+        log.info("Пользователь с id {} успешно обновлен", user.getId());
     }
 
     @Override
     public void deleteUser(Long id) {
-        checkUserAvailability("найти", id);
-        usersEmail.remove(users.get(id).getEmail());
+        log.info("Получен запрос на удаление пользователя с id {}", id);
+        User user = checkUserAvailability("удалить", id);
+        usersEmail.remove(user.getEmail());
         users.remove(id);
-        log.info("Получен запрос на удаление пользователя");
+        log.info("Пользователь с id {} успешно удален", id);
     }
 
     @Override
     public User checkUserAvailability(String operation, Long id) {
         User user = users.get(id);
-        if (!users.containsKey(id)) {
-            String massage = String.format("Невозможно %s. Пользователь отсутствует!", operation);
-            throw new NotFoundObjectException(massage);
+        if (user == null) {
+            String message = String.format("Невозможно %s. Пользователь с id %d отсутствует!", operation, id);
+            log.warn(message);
+            throw new NotFoundObjectException(message);
         }
         return user;
-
     }
 
-    private void isExist(String email) {
+    private void checkEmailUniqueness(String email) {
         if (usersEmail.containsKey(email)) {
-            throw new DuplicateObjectException("Пользователь с таким email уже существует");
+            String message = "Пользователь с таким email уже существует";
+            log.warn(message);
+            throw new DuplicateObjectException(message);
         }
     }
 
-    private long getId() {
-        return id++;
+    private long generateId() {
+        return id.getAndIncrement();
     }
 }
