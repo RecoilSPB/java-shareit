@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item.controller;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
+@Validated
 public class ItemController {
     private final ItemService itemService;
 
@@ -22,30 +23,31 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getItemsByUser(@RequestHeader("X-Sharer-User-Id") @NotNull Long userId) {
+    public List<ItemDto> getItemsByUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getItemsByUser(userId);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getItemByText(@RequestParam String text) {
+    public List<ItemDto> getItemByText(@RequestParam @NotBlank String text) {
         return itemService.getItemByText(text);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") @NotNull Long userId,
+    public ItemDto getItemById(@RequestHeader("X-Sharer-User-Id") Long userId,
                                @PathVariable Long itemId) {
         return itemService.getItemById(itemId, userId);
     }
 
     @PostMapping
-    public ItemDto creatItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                             @Validated(CreateObject.class) @RequestBody ItemDto itemDto) {
+    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+                              @Validated(CreateObject.class) @RequestBody ItemDto itemDto) {
         return itemService.createItem(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                              @Validated @RequestBody ItemDto itemDto, @PathVariable Long itemId) {
+                              @Validated @RequestBody ItemDto itemDto,
+                              @PathVariable Long itemId) {
         return itemService.updateItem(userId, itemDto, itemId);
     }
 }
