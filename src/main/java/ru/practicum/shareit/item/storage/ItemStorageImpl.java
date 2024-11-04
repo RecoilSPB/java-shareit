@@ -53,32 +53,35 @@ public class ItemStorageImpl implements ItemStorage {
 
     @Override
     public Item updateItem(Item item) {
-        Item exsistingItem = checkAvailability("изменить", item.getId());
-        checkOwner(exsistingItem, item.getOwner());
+        log.info("Получен запрос на изменение характеристик вещи с id {}", item.getId());
+        Item existingItem = checkAvailability("изменить", item.getId());
+        checkOwner(existingItem, item.getOwner());
+
         if (item.getName() != null && !item.getName().isBlank()) {
-            exsistingItem.setName(item.getName());
+            existingItem.setName(item.getName());
         }
         if (item.getDescription() != null && !item.getDescription().isBlank()) {
-            exsistingItem.setDescription(item.getDescription());
+            existingItem.setDescription(item.getDescription());
         }
         if (item.getAvailable() != null) {
-            exsistingItem.setAvailable(item.getAvailable());
+            existingItem.setAvailable(item.getAvailable());
         }
-        log.info("Получен запрос на изменение характеристик вещи");
-        return exsistingItem;
+
+        log.info("Характеристики вещи с id {} успешно изменены", item.getId());
+        return existingItem;
     }
+
 
     private long getId() {
         return id++;
     }
 
     private Item checkAvailability(String operation, long id) {
-        String message = String.format("Невозможно %s. Вещь не найдена!", operation);
-        Item item = items.get(id);
         if (!items.containsKey(id)) {
-            throw new NotFoundObjectException(message);
+            log.warn("Вещь с id {} не найдена!", id);
+            throw new NotFoundObjectException("Невозможно " + operation + ". Вещь не найдена!");
         }
-        return item;
+        return items.get(id);
     }
 
     private void checkOwner(Item item, long userId) {
