@@ -1,9 +1,8 @@
 package ru.practicum.shareit.booking.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.comparator.BookingComparator;
 import ru.practicum.shareit.booking.dto.BookingInputDto;
 import ru.practicum.shareit.booking.dto.BookingOutputDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -25,17 +24,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookingServiceDb implements BookingService {
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
-
-    @Autowired
-    public BookingServiceDb(BookingRepository bookingRepository, UserRepository userRepository, ItemRepository itemRepository) {
-        this.bookingRepository = bookingRepository;
-        this.userRepository = userRepository;
-        this.itemRepository = itemRepository;
-    }
 
     @Override
     public BookingOutputDto createBooking(BookingInputDto bookingInputDto, Long userId) {
@@ -119,7 +112,7 @@ public class BookingServiceDb implements BookingService {
             throw new InvalidRequestException("Не существующий статус: " + state);
         }
 
-        return convertBookings(supplier.get());
+        return BookingMapper.convertBookings(supplier.get());
     }
 
 
@@ -148,15 +141,7 @@ public class BookingServiceDb implements BookingService {
             throw new UnknownStateException("Unknown state: " + state);
         }
 
-        return convertBookings(supplier.get());
-    }
-
-
-    private List<BookingOutputDto> convertBookings(List<Booking> bookings) {
-        return bookings.stream()
-                .map(BookingMapper::toBookingDto)
-                .sorted(new BookingComparator().reversed())
-                .collect(Collectors.toList());
+        return BookingMapper.convertBookings(supplier.get());
     }
 
     private User getUser(Long userId) {

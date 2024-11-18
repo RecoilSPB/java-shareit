@@ -1,8 +1,12 @@
 package ru.practicum.shareit.booking.mapper;
 
+import ru.practicum.shareit.booking.comparator.BookingComparator;
 import ru.practicum.shareit.booking.dto.BookingOutputDto;
 import ru.practicum.shareit.booking.dto.DateBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookingMapper {
     public static BookingOutputDto toBookingDto(Booking booking) {
@@ -23,5 +27,12 @@ public class BookingMapper {
                 .start(booking.getStart())
                 .end(booking.getEnd())
                 .build();
+    }
+
+    public static List<BookingOutputDto> convertBookings(List<Booking> bookings) {
+        return bookings.stream()
+                .map(BookingMapper::toBookingDto)
+                .sorted(new BookingComparator().reversed())
+                .collect(Collectors.toList());
     }
 }
