@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -120,20 +119,19 @@ public class BookingServiceDb implements BookingService {
     public List<BookingOutputDto> getAllBookingsForOwner(Long ownerId, BookingState state) {
         User owner = getUser(ownerId);
         List<Item> items = itemRepository.findByOwner(owner);
+        List<Long> itemIds = items.stream().map(Item::getId).toList();
         log.info("Получен запрос на получение списка бронирований по владельцу");
-        return items.stream()
-                .flatMap((item) -> getAllBookingsForItem(item, state).stream())
-                .collect(Collectors.toList());
+        return getAllBookingsForItem(itemIds, state);
     }
 
-    private List<BookingOutputDto> getAllBookingsForItem(Item item, BookingState state) {
+    private List<BookingOutputDto> getAllBookingsForItem(List<Long> itemIds, BookingState state) {
         Map<BookingState, Supplier<List<Booking>>> stateToMethodMap = Map.of(
-                BookingState.ALL, () -> bookingRepository.findByItem(item),
-                BookingState.CURRENT, () -> bookingRepository.findCurrentByItem(item),
-                BookingState.PAST, () -> bookingRepository.findByItemAndEndIsBefore(item, LocalDateTime.now()),
-                BookingState.FUTURE, () -> bookingRepository.findByItemAndStartIsAfter(item, LocalDateTime.now()),
-                BookingState.WAITING, () -> bookingRepository.findByItemAndStatus(item, BookingStatus.WAITING),
-                BookingState.REJECTED, () -> bookingRepository.findByItemAndStatus(item, BookingStatus.REJECTED)
+                BookingState.ALL, () -> bookingRepository.findAllByItemIds(itemIds),
+                BookingState.CURRENT, () -> bookingRepository.findCurrentByItemIds(itemIds),
+                BookingState.PAST, () -> bookingRepository.findPastByItemIds(itemIds),
+                BookingState.FUTURE, () -> bookingRepository.findFutureByItemIds(itemIds),
+                BookingState.WAITING, () -> bookingRepository.findByItemIdsAndStatus(itemIds, BookingStatus.WAITING),
+                BookingState.REJECTED, () -> bookingRepository.findByItemIdsAndStatus(itemIds, BookingStatus.REJECTED)
         );
 
         Supplier<List<Booking>> supplier = stateToMethodMap.get(state);

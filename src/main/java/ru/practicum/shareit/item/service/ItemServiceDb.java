@@ -22,9 +22,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -153,7 +151,7 @@ public class ItemServiceDb implements ItemService, CommentService {
         if (!item.getOwner().getId().equals(userId)) {
             return null;
         }
-        List<Booking> bookings = bookingRepository.findByItemAndEndIsBefore(item, LocalDateTime.now());
+        List<Booking> bookings = bookingRepository.findPastByItemIds(Collections.singletonList(item.getId()));
         if (bookings.isEmpty()) {
             return null;
         }
@@ -162,7 +160,7 @@ public class ItemServiceDb implements ItemService, CommentService {
 
     private DateBookingDto getNextBooking(Item item, Long userId) {
         if (!item.getOwner().getId().equals(userId)) return null;
-        List<Booking> bookings = bookingRepository.findByItemAndStartIsAfter(item, LocalDateTime.now());
+        List<Booking> bookings = bookingRepository.findFutureByItemIds(Collections.singletonList(item.getId()));
         if (bookings.isEmpty()) {
             return null;
         }

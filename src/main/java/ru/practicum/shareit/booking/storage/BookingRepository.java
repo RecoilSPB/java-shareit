@@ -24,16 +24,20 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByBookerAndStatus(User booker, BookingStatus status);
 
-    List<Booking> findByItem(Item item);
+    @Query("SELECT b FROM Booking b WHERE b.item.id IN :itemIds")
+    List<Booking> findAllByItemIds(List<Long> itemIds);
 
-    @Query("select b from Booking b where b.item = :item and b.start <= current_timestamp and b.end >= current_timestamp")
-    List<Booking> findCurrentByItem(Item item);
+    @Query("SELECT b FROM Booking b WHERE b.item.id IN :itemIds AND b.start <= CURRENT_TIMESTAMP AND b.end >= CURRENT_TIMESTAMP")
+    List<Booking> findCurrentByItemIds(List<Long> itemIds);
 
-    List<Booking> findByItemAndEndIsBefore(Item item, LocalDateTime end);
+    @Query("SELECT b FROM Booking b WHERE b.item.id IN :itemIds AND b.end < CURRENT_TIMESTAMP")
+    List<Booking> findPastByItemIds(List<Long> itemIds);
 
-    List<Booking> findByItemAndStartIsAfter(Item item, LocalDateTime start);
+    @Query("SELECT b FROM Booking b WHERE b.item.id IN :itemIds AND b.start > CURRENT_TIMESTAMP")
+    List<Booking> findFutureByItemIds(List<Long> itemIds);
 
-    List<Booking> findByItemAndStatus(Item item, BookingStatus status);
+    @Query("SELECT b FROM Booking b WHERE b.item.id IN :itemIds AND b.status = :status")
+    List<Booking> findByItemIdsAndStatus(List<Long> itemIds, BookingStatus status);
 
     List<Booking> findByBookerAndItem(User booker, Item item);
 }
