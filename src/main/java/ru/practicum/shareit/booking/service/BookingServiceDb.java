@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingInputDto;
 import ru.practicum.shareit.booking.dto.BookingOutputDto;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
@@ -30,6 +31,7 @@ public class BookingServiceDb implements BookingService {
     private final ItemRepository itemRepository;
 
     @Override
+    @Transactional
     public BookingOutputDto createBooking(BookingInputDto bookingInputDto, Long userId) {
         isTheTimeCorrect(bookingInputDto);
 
@@ -58,6 +60,7 @@ public class BookingServiceDb implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingOutputDto updateApprove(Long bookingId, Boolean approved, Long userId) {
 
         Booking booking = getBooking(bookingId);
@@ -77,6 +80,7 @@ public class BookingServiceDb implements BookingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BookingOutputDto getBookingInfo(Long bookingId, Long userId) {
         log.info("Получен запрос на получение информации о бронировании  с ID: {}", bookingId);
 
@@ -93,6 +97,7 @@ public class BookingServiceDb implements BookingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookingOutputDto> getAllBookings(Long bookerId, BookingState state) {
         User booker = getUser(bookerId);
         log.info("Получен запрос на получение списка бронирований");
@@ -116,6 +121,7 @@ public class BookingServiceDb implements BookingService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookingOutputDto> getAllBookingsForOwner(Long ownerId, BookingState state) {
         User owner = getUser(ownerId);
         List<Item> items = itemRepository.findByOwner(owner);
