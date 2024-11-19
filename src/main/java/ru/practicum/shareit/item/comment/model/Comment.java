@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString(exclude = {"item", "author"} )
+@ToString(exclude = {"item", "author"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
