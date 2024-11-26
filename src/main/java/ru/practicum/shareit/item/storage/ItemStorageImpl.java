@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.NotFoundObjectException;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ItemStorageImpl implements ItemStorage {
     public List<Item> getItemsByUser(Long userId) {
         log.info("Получен запрос на вывод вещей определенного пользователя");
         return items.values().stream()
-                .filter(item -> Objects.equals(item.getOwner(), userId))
+                .filter(item -> Objects.equals(item.getOwner().getId(), userId))
                 .collect(Collectors.toList());
     }
 
@@ -84,8 +85,8 @@ public class ItemStorageImpl implements ItemStorage {
         return items.get(id);
     }
 
-    private void checkOwner(Item item, long userId) {
-        if (item.getOwner() != userId) {
+    private void checkOwner(Item item, User user) {
+        if (item.getOwner() != user) {
             throw new NotFoundObjectException("Вещь принадлежит другому пользователю!");
         }
     }
