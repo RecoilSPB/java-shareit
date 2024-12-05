@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.mapper.user.UserMapper.toUserDto;
+
 @Slf4j
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -63,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto createItem(Long userId, ItemDto itemDto) {
         userStorage.checkUserAvailability("найти", userId);
-        itemDto.setOwner(userStorage.getUserById(userId));
+        itemDto.setOwner(toUserDto(userStorage.getUserById(userId)));
         Item item = itemStorage.addItem(ItemMapper.toItem(itemDto, null));
         return ItemMapper.toItemDto(item);
     }
@@ -71,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemDto updateItem(Long userId, ItemDto itemDto, Long itemId) {
         userStorage.checkUserAvailability("найти", userId);
-        itemDto.setOwner(userStorage.getUserById(userId));
+        itemDto.setOwner(toUserDto(userStorage.getUserById(userId)));
         itemDto.setId(itemId);
         Item item = itemStorage.updateItem(ItemMapper.toItem(itemDto, null));
         return ItemMapper.toItemDto(item);

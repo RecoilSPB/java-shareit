@@ -1,18 +1,20 @@
 package ru.practicum.dto.booking;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@Data
-@SuperBuilder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseBookingDto {
-    private Long id;
+public class BookItemRequestDto {
+    private long itemId;
+    @FutureOrPresent
     private LocalDateTime start;
+    @Future
     private LocalDateTime end;
 }

@@ -9,6 +9,9 @@ import ru.practicum.model.request.ItemRequest;
 
 import java.util.List;
 
+import static ru.practicum.mapper.user.UserMapper.toUser;
+import static ru.practicum.mapper.user.UserMapper.toUserDto;
+
 public class ItemMapper {
     public static ItemDto toItemDto(
             Item item,
@@ -21,7 +24,7 @@ public class ItemMapper {
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
-                .owner(item.getOwner())
+                .owner(toUserDto(item.getOwner()))
                 .comments(comments)
                 .lastBooking(lastBooking)
                 .nextBooking(nextBooking)
@@ -36,7 +39,7 @@ public class ItemMapper {
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
-                .owner(item.getOwner())
+                .owner(toUserDto(item.getOwner()))
                 .requestId(requestId)
                 .build();
     }
@@ -49,7 +52,7 @@ public class ItemMapper {
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
-                .owner(item.getOwner())
+                .owner(toUserDto(item.getOwner()))
                 .requestId(requestId)
                 .comments(comments)
                 .build();
@@ -61,7 +64,7 @@ public class ItemMapper {
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
                 .available(itemDto.getAvailable())
-                .owner(itemDto.getOwner())
+                .owner(toUser(itemDto.getOwner()))
                 .request(request)
                 .build();
     }

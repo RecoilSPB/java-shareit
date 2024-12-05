@@ -8,14 +8,17 @@ import ru.practicum.model.booking.Booking;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.mapper.item.ItemMapper.toItemDto;
+import static ru.practicum.mapper.user.UserMapper.toUserDto;
+
 public class BookingMapper {
     public static BookingOutputDto toBookingDto(Booking booking) {
         return BookingOutputDto.builder()
                 .id(booking.getId())
                 .end(booking.getEnd())
                 .start(booking.getStart())
-                .booker(booking.getBooker())
-                .item(booking.getItem())
+                .booker(toUserDto(booking.getBooker()))
+                .item(toItemDto(booking.getItem()))
                 .status(booking.getStatus())
                 .build();
     }

@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.practicum.mapper.user.UserMapper.toUserDto;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -79,7 +81,7 @@ public class ItemServiceDb implements ItemService, CommentService {
     @Override
     public ItemDto createItem(Long userId, ItemDto itemDto) {
         log.info("Получен запрос на добавление вещи");
-        itemDto.setOwner(getUser(userId));
+        itemDto.setOwner(toUserDto(getUser(userId)));
         Long requestId = itemDto.getRequestId();
         ItemRequest request = requestId != null ? getRequest(requestId) : null;
         return ItemMapper.toItemDto(itemRepository.save(ItemMapper.toItem(itemDto, request)));

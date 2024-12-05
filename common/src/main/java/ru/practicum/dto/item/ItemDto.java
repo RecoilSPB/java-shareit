@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.dto.booking.DateBookingDto;
 import ru.practicum.dto.item.comment.CommentDto;
-import ru.practicum.model.user.User;
+import ru.practicum.dto.user.UserDto;
 import ru.practicum.validation.CreateObject;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class ItemDto {
     private String description;
     @NotNull(message = "Статус не может отсутствовать", groups = CreateObject.class)
     private Boolean available;
-    private User owner;
+    private UserDto owner;
     private List<CommentDto> comments;
     private DateBookingDto lastBooking;
     private DateBookingDto nextBooking;
