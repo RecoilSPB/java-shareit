@@ -2,6 +2,8 @@ package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.booking.BookingInputDto;
@@ -12,6 +14,7 @@ import ru.practicum.model.item.Item;
 import ru.practicum.model.user.User;
 import ru.practicum.exception.*;
 import ru.practicum.mapper.booking.BookingMapper;
+import ru.practicum.paging.item.CustomPageRequest;
 import ru.practicum.shareit.booking.state.BookingState;
 import ru.practicum.shareit.booking.storage.BookingRepository;
 import ru.practicum.shareit.item.storage.ItemRepository;
@@ -98,7 +101,7 @@ public class BookingServiceDb implements BookingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookingOutputDto> getAllBookings(Long bookerId, BookingState state) {
+    public List<BookingOutputDto> getAllBookings(Long bookerId, BookingState state, Integer from, Integer size) {
         User booker = getUser(bookerId);
         log.info("Получен запрос на получение списка бронирований");
 
@@ -122,9 +125,10 @@ public class BookingServiceDb implements BookingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookingOutputDto> getAllBookingsForOwner(Long ownerId, BookingState state) {
+    public List<BookingOutputDto> getAllBookingsForOwner(Long ownerId, BookingState state, Integer from, Integer size) {
         User owner = getUser(ownerId);
-        List<Item> items = itemRepository.findByOwner(owner);
+        Pageable pageable = CustomPageRequest.create(from, size, Sort.by(Sort.Direction.DESC, "start"));
+        List<Item> items = itemRepository.findByOwner(owner, pageable);
         List<Long> itemIds = items.stream().map(Item::getId).toList();
         log.info("Получен запрос на получение списка бронирований по владельцу");
         return getAllBookingsForItem(itemIds, state);

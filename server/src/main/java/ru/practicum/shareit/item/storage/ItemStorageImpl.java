@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.storage;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import ru.practicum.model.item.Item;
 import ru.practicum.model.user.User;
@@ -20,7 +21,7 @@ public class ItemStorageImpl implements ItemStorage {
     private long id = 1;
 
     @Override
-    public List<Item> getItemsByUser(Long userId) {
+    public List<Item> getItemsByUser(Long userId, Pageable pageable) {
         log.info("Получен запрос на вывод вещей определенного пользователя");
         return items.values().stream()
                 .filter(item -> Objects.equals(item.getOwner().getId(), userId))
@@ -28,7 +29,7 @@ public class ItemStorageImpl implements ItemStorage {
     }
 
     @Override
-    public List<Item> getItemByText(String text) {
+    public List<Item> getItemByText(String text, Pageable pageable) {
         log.info("Получен запрос на поиск вещи по названию или описанию");
         return items.values().stream()
                 .filter(Item::getAvailable)

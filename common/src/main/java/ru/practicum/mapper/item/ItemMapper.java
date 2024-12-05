@@ -5,6 +5,7 @@ import ru.practicum.dto.item.ItemForRequestDto;
 import ru.practicum.dto.item.comment.CommentDto;
 import ru.practicum.dto.item.ItemDto;
 import ru.practicum.model.item.Item;
+import ru.practicum.model.request.ItemRequest;
 
 import java.util.List;
 
@@ -28,33 +29,40 @@ public class ItemMapper {
     }
 
     public static ItemDto toItemDto(Item item) {
+        ItemRequest request = item.getRequest();
+        Long requestId = request != null ? request.getId() : null;
         return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
                 .owner(item.getOwner())
+                .requestId(requestId)
                 .build();
     }
 
     public static ItemDto toItemDto(Item item, List<CommentDto> comments) {
+        ItemRequest request = item.getRequest();
+        Long requestId = request != null ? request.getId() : null;
         return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
                 .owner(item.getOwner())
+                .requestId(requestId)
                 .comments(comments)
                 .build();
     }
 
-    public static Item toItem(ItemDto itemDto) {
+    public static Item toItem(ItemDto itemDto, ItemRequest request) {
         return Item.builder()
                 .id(itemDto.getId())
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
                 .available(itemDto.getAvailable())
                 .owner(itemDto.getOwner())
+                .request(request)
                 .build();
     }
 

@@ -2,25 +2,35 @@ package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.dto.booking.DateBookingDto;
+import ru.practicum.dto.item.ItemDto;
+import ru.practicum.dto.item.comment.CommentDto;
+import ru.practicum.exception.InvalidRequestException;
+import ru.practicum.exception.NotFoundObjectException;
+import ru.practicum.exception.OtherDataException;
+import ru.practicum.mapper.booking.BookingMapper;
+import ru.practicum.mapper.item.ItemMapper;
+import ru.practicum.mapper.item.comment.CommentMapper;
 import ru.practicum.model.booking.Booking;
 import ru.practicum.model.item.Item;
 import ru.practicum.model.item.comment.Comment;
+import ru.practicum.model.request.ItemRequest;
 import ru.practicum.model.user.User;
-import ru.practicum.mapper.booking.BookingMapper;
+import ru.practicum.paging.item.CustomPageRequest;
 import ru.practicum.shareit.booking.storage.BookingRepository;
-import ru.practicum.dto.item.comment.CommentDto;
-import ru.practicum.mapper.item.comment.CommentMapper;
 import ru.practicum.shareit.item.comment.storage.CommentRepository;
-import ru.practicum.dto.item.ItemDto;
-import ru.practicum.mapper.item.ItemMapper;
 import ru.practicum.shareit.item.storage.ItemRepository;
+import ru.practicum.shareit.request.storage.ItemRequestRepository;
 import ru.practicum.shareit.user.storage.UserRepository;
-import ru.practicum.exception.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,23 +41,26 @@ public class ItemServiceDb implements ItemService, CommentService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final BookingRepository bookingRepository;
+    private final ItemRequestRepository requestRepository;
 
     @Override
-    public List<ItemDto> getItemsByUser(Long userId) {
+    public List<ItemDto> getItemsByUser(Long userId, Integer from, Integer size) {
         log.info("Получен запрос на список вещей по хозяину");
-        return itemRepository.findByOwner(getUser(userId)).stream()
+        Pageable pageable = CustomPageRequest.create(from, size, Sort.by(Sort.Direction.ASC, "id"));
+        return itemRepository.findByOwner(getUser(userId), pageable).stream()
                 .map(item -> fillItemDto(item, userId))
                 .sorted(Comparator.comparing(ItemDto::getId))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ItemDto> getItemByText(String text) {
+    public List<ItemDto> getItemByText(String text, Integer from, Integer size) {
         log.info("Получен запрос на поиск вещи по названию или описанию");
+        Pageable pageable = CustomPageRequest.create(from, size, Sort.by(Sort.Direction.ASC, "id"));
         if (text.isBlank()) {
             return new ArrayList<>();
         }
-        return itemRepository.search(text.toLowerCase()).stream()
+        return itemRepository.search(text.toLowerCase(), pageable).stream()
                 .filter(Item::getAvailable)
                 .map(item -> ItemMapper.toItemDto(item, getComments(item.getId())))
                 .collect(Collectors.toList());
@@ -67,7 +80,13 @@ public class ItemServiceDb implements ItemService, CommentService {
     public ItemDto createItem(Long userId, ItemDto itemDto) {
         log.info("Получен запрос на добавление вещи");
         itemDto.setOwner(getUser(userId));
-        return ItemMapper.toItemDto(itemRepository.save(ItemMapper.toItem(itemDto)));
+        Long requestId = itemDto.getRequestId();
+        ItemRequest request = requestId != null ? getRequest(requestId) : null;
+        return ItemMapper.toItemDto(itemRepository.save(ItemMapper.toItem(itemDto, request)));
+    }
+
+    private ItemRequest getRequest(Long requestId) {
+        return requestRepository.findById(requestId).orElse(null);
     }
 
     @Override

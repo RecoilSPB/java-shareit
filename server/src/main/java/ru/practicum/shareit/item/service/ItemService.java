@@ -5,9 +5,9 @@ import ru.practicum.dto.item.ItemDto;
 import java.util.List;
 
 public interface ItemService {
-    List<ItemDto> getItemsByUser(Long userId);
+    List<ItemDto> getItemsByUser(Long userId, Integer from, Integer size);
 
-    List<ItemDto> getItemByText(String text);
+    List<ItemDto> getItemByText(String text, Integer from, Integer size);
 
     ItemDto getItemById(Long itemId, Long userId);
 
