@@ -1,6 +1,7 @@
 package ru.practicum.mapper.item;
 
 import ru.practicum.dto.booking.DateBookingDto;
+import ru.practicum.dto.item.ItemForRequestDto;
 import ru.practicum.dto.item.comment.CommentDto;
 import ru.practicum.dto.item.ItemDto;
 import ru.practicum.model.item.Item;
@@ -54,6 +55,16 @@ public class ItemMapper {
                 .description(itemDto.getDescription())
                 .available(itemDto.getAvailable())
                 .owner(itemDto.getOwner())
+                .build();
+    }
+
+    public static ItemForRequestDto toItemForRequestDto(Item item) {
+        return ItemForRequestDto.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .description(item.getDescription())
+                .available(item.getAvailable())
+                .requestId(item.getRequest().getId())
                 .build();
     }
 }
