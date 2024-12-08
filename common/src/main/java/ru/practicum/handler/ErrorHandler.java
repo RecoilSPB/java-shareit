@@ -87,4 +87,12 @@ public class ErrorHandler {
         log.error("Internal server error: {}", e.getMessage(), e);
         return error;
     }
+
+    @ExceptionHandler()
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handle(final UnknownStateException e) {
+        Map<String, String> error = Map.of("error", e.getMessage());
+        log.warn(e.getMessage());
+        return error;
+    }
 }

@@ -1,14 +1,13 @@
-package booking;
+package ru.practicum.dto.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.practicum.dto.booking.BookingOutputDto;
-import ru.practicum.model.booking.BookingStatus;
 import ru.practicum.dto.item.ItemDto;
 import ru.practicum.dto.user.UserDto;
+import ru.practicum.model.booking.BookingStatus;
 
 import java.time.LocalDateTime;
 
