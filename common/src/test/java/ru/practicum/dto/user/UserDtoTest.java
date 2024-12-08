@@ -5,6 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
+import ru.practicum.user.dto.UserDto;
 import ru.practicum.validation.CreateObject;
 
 import java.util.Set;

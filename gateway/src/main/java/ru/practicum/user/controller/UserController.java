@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.user.client.UserClient;
-import ru.practicum.dto.user.UserDto;
+import ru.practicum.user.dto.UserDto;
 import ru.practicum.validation.CreateObject;
 import ru.practicum.validation.UpdateObject;
 

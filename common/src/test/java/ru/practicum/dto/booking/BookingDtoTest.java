@@ -5,9 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.practicum.dto.item.ItemDto;
-import ru.practicum.dto.user.UserDto;
-import ru.practicum.model.booking.BookingStatus;
+import ru.practicum.booking.dto.BookingOutputDto;
+import ru.practicum.item.dto.ItemDto;
+import ru.practicum.user.dto.UserDto;
+import ru.practicum.booking.model.BookingStatus;
 
 import java.time.LocalDateTime;
 

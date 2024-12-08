@@ -8,8 +8,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.client.BaseClient;
-import ru.practicum.dto.item.comment.CommentDto;
-import ru.practicum.dto.item.ItemDto;
+import ru.practicum.item.comment.dto.CommentDto;
+import ru.practicum.item.dto.ItemDto;
 
 
 import java.util.HashMap;

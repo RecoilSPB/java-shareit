@@ -1,10 +1,11 @@
 package ru.practicum.mapper.request;
 
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.item.ItemForRequestDto;
-import ru.practicum.dto.request.ItemRequestDto;
-import ru.practicum.model.request.ItemRequest;
-import ru.practicum.model.user.User;
+import ru.practicum.item.dto.ItemForRequestDto;
+import ru.practicum.request.dto.ItemRequestDto;
+import ru.practicum.request.mapper.ItemRequestMapper;
+import ru.practicum.request.model.ItemRequest;
+import ru.practicum.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

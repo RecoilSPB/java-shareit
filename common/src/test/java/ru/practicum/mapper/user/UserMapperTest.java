@@ -1,8 +1,9 @@
 package ru.practicum.mapper.user;
 
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.user.UserDto;
-import ru.practicum.model.user.User;
+import ru.practicum.user.dto.UserDto;
+import ru.practicum.user.mapper.UserMapper;
+import ru.practicum.user.model.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

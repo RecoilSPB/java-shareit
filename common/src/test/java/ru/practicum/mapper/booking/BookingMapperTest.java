@@ -1,10 +1,13 @@
 package ru.practicum.mapper.booking;
 
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.booking.BookingOutputDto;
-import ru.practicum.dto.booking.DateBookingDto;
-import ru.practicum.model.booking.Booking;
-import ru.practicum.model.booking.BookingStatus;
+import ru.practicum.booking.dto.BookingOutputDto;
+import ru.practicum.booking.dto.DateBookingDto;
+import ru.practicum.booking.mapper.BookingMapper;
+import ru.practicum.booking.model.Booking;
+import ru.practicum.booking.model.BookingStatus;
+import ru.practicum.item.model.Item;
+import ru.practicum.user.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,9 +23,9 @@ class BookingMapperTest {
     void toBookingDto() {
         // Arrange
         Booking booking = mock(Booking.class);
-        ru.practicum.model.user.User user = mock(ru.practicum.model.user.User.class);
-        ru.practicum.model.item.Item item = mock(ru.practicum.model.item.Item.class);
-        ru.practicum.model.user.User itemOwner = mock(ru.practicum.model.user.User.class);
+        User user = mock(User.class);
+        Item item = mock(Item.class);
+        User itemOwner = mock(User.class);
 
         // Настраиваем Booking
         when(booking.getId()).thenReturn(1L);
@@ -79,7 +82,7 @@ class BookingMapperTest {
         when(booking.getId()).thenReturn(2L);
         when(booking.getStart()).thenReturn(LocalDateTime.of(2024, 2, 1, 12, 0));
         when(booking.getEnd()).thenReturn(LocalDateTime.of(2024, 2, 2, 12, 0));
-        when(booking.getBooker()).thenReturn(mock(ru.practicum.model.user.User.class));
+        when(booking.getBooker()).thenReturn(mock(User.class));
         when(booking.getBooker().getId()).thenReturn(100L);
 
         // Act
@@ -99,11 +102,11 @@ class BookingMapperTest {
         Booking booking1 = mock(Booking.class);
         Booking booking2 = mock(Booking.class);
 
-        ru.practicum.model.user.User user1 = mock(ru.practicum.model.user.User.class);
-        ru.practicum.model.user.User user2 = mock(ru.practicum.model.user.User.class);
+        User user1 = mock(User.class);
+        User user2 = mock(User.class);
 
-        ru.practicum.model.item.Item item1 = mock(ru.practicum.model.item.Item.class);
-        ru.practicum.model.item.Item item2 = mock(ru.practicum.model.item.Item.class);
+        Item item1 = mock(Item.class);
+        Item item2 = mock(Item.class);
 
         // Настраиваем Booking 1
         when(booking1.getId()).thenReturn(1L);

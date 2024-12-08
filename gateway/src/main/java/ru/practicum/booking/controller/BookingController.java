@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.booking.client.BookingClient;
-import ru.practicum.dto.booking.BookItemRequestDto;
+import ru.practicum.booking.dto.BookItemRequestDto;
 
 
 @Controller

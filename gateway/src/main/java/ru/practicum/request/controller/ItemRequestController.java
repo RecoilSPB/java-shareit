@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.request.client.RequestClient;
-import ru.practicum.dto.request.ItemRequestDto;
+import ru.practicum.request.dto.ItemRequestDto;
 
 
 @RestController

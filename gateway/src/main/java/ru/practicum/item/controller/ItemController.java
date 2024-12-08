@@ -6,9 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.item.ItemDto;
-import ru.practicum.dto.item.comment.CommentDto;
 import ru.practicum.item.client.ItemClient;
+import ru.practicum.item.comment.dto.CommentDto;
+import ru.practicum.item.dto.ItemDto;
 import ru.practicum.validation.CreateObject;
 
 @RestController

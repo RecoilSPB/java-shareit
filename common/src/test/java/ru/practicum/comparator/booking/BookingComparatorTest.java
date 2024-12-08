@@ -2,7 +2,8 @@ package ru.practicum.comparator.booking;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.booking.BookingOutputDto;
+import ru.practicum.booking.comparator.BookingComparator;
+import ru.practicum.booking.dto.BookingOutputDto;
 
 import java.time.LocalDateTime;
 

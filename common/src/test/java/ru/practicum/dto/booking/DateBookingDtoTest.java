@@ -5,6 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
+import ru.practicum.booking.dto.DateBookingDto;
 import ru.practicum.validation.CreateObject;
 
 import java.time.LocalDateTime;

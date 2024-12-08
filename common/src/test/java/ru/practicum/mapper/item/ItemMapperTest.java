@@ -1,11 +1,14 @@
 package ru.practicum.mapper.item;
 
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.booking.DateBookingDto;
-import ru.practicum.dto.item.ItemDto;
-import ru.practicum.dto.item.comment.CommentDto;
-import ru.practicum.model.item.Item;
-import ru.practicum.model.request.ItemRequest;
+import ru.practicum.booking.dto.DateBookingDto;
+import ru.practicum.user.dto.UserDto;
+import ru.practicum.item.dto.ItemDto;
+import ru.practicum.item.comment.dto.CommentDto;
+import ru.practicum.item.mapper.ItemMapper;
+import ru.practicum.item.model.Item;
+import ru.practicum.request.model.ItemRequest;
+import ru.practicum.user.model.User;
 
 import java.util.List;
 
@@ -18,7 +21,7 @@ class ItemMapperTest {
     void toItemDto_withAllFields() {
         // Arrange
         Item item = mock(Item.class);
-        ru.practicum.model.user.User user = mock(ru.practicum.model.user.User.class);
+        User user = mock(User.class);
         List<CommentDto> comments = List.of(mock(CommentDto.class));
         DateBookingDto lastBooking = mock(DateBookingDto.class);
         DateBookingDto nextBooking = mock(DateBookingDto.class);
@@ -51,7 +54,7 @@ class ItemMapperTest {
     void toItemDto_withoutRequest() {
         // Arrange
         Item item = mock(Item.class);
-        ru.practicum.model.user.User user = mock(ru.practicum.model.user.User.class);
+        User user = mock(User.class);
 
         when(item.getId()).thenReturn(1L);
         when(item.getName()).thenReturn("Test Item");
@@ -81,7 +84,7 @@ class ItemMapperTest {
     void toItem() {
         // Arrange
         ItemDto itemDto = mock(ItemDto.class);
-        ru.practicum.dto.user.UserDto userDto = mock(ru.practicum.dto.user.UserDto.class);
+        UserDto userDto = mock(UserDto.class);
         ItemRequest request = mock(ItemRequest.class);
 
         when(itemDto.getId()).thenReturn(1L);
@@ -118,7 +121,7 @@ class ItemMapperTest {
         when(item.getAvailable()).thenReturn(true);
         when(item.getRequest()).thenReturn(request);
         when(request.getId()).thenReturn(2001L);
-        when(item.getOwner()).thenReturn(mock(ru.practicum.model.user.User.class));
+        when(item.getOwner()).thenReturn(mock(User.class));
 
         // Act
         ItemDto result = ItemMapper.toItemDto(item, comments);
@@ -137,7 +140,7 @@ class ItemMapperTest {
     void toItem_withNullRequest() {
         // Arrange
         ItemDto itemDto = mock(ItemDto.class);
-        ru.practicum.dto.user.UserDto userDto = mock(ru.practicum.dto.user.UserDto.class);
+        UserDto userDto = mock(UserDto.class);
 
         when(itemDto.getId()).thenReturn(1L);
         when(itemDto.getName()).thenReturn("No Request Item");

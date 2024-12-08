@@ -5,9 +5,10 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.item.ItemDto;
-import ru.practicum.dto.user.UserDto;
-import ru.practicum.model.booking.BookingStatus;
+import ru.practicum.booking.dto.BookingOutputDto;
+import ru.practicum.item.dto.ItemDto;
+import ru.practicum.user.dto.UserDto;
+import ru.practicum.booking.model.BookingStatus;
 import ru.practicum.validation.CreateObject;
 
 import java.util.Set;

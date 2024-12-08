@@ -5,10 +5,10 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
-import ru.practicum.dto.item.ItemForRequestDto;
-import ru.practicum.mapper.item.ItemMapper;
-import ru.practicum.model.item.Item;
-import ru.practicum.model.request.ItemRequest;
+import ru.practicum.item.dto.ItemForRequestDto;
+import ru.practicum.item.mapper.ItemMapper;
+import ru.practicum.item.model.Item;
+import ru.practicum.request.model.ItemRequest;
 
 import java.util.Set;
 
