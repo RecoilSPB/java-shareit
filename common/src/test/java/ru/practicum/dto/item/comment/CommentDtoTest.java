@@ -27,7 +27,7 @@ public class CommentDtoTest {
                 .text("")
                 .build();
 
-        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto, CreateObject.class);
+        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream()
                 .anyMatch(v -> v.getMessage().contains("не должно быть пустым")));
