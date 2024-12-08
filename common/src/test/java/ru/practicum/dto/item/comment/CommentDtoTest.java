@@ -5,6 +5,7 @@ import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.Test;
+import ru.practicum.validation.CreateObject;
 
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class CommentDtoTest {
                 .text("")
                 .build();
 
-        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto);
+        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto, CreateObject.class);
         assertFalse(violations.isEmpty());
         assertTrue(violations.stream()
                 .anyMatch(v -> v.getMessage().contains("не должно быть пустым")));
@@ -38,7 +39,7 @@ public class CommentDtoTest {
                 .text("Valid text")
                 .build();
 
-        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto);
+        Set<ConstraintViolation<CommentDto>> violations = validator.validate(dto, CreateObject.class);
         assertTrue(violations.isEmpty());
     }
 }
