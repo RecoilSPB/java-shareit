@@ -158,11 +158,11 @@
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <configuration>
                             <excludes>
-                                <exclude>/ru/practicum/shareit/booking/model/QBooking.class</exclude>
-                                <exclude>/ru/practicum/shareit/item/model/QComment.class</exclude>
-                                <exclude>/ru/practicum/shareit/item/model/QItem.class</exclude>
-                                <exclude>/ru/practicum/shareit/request/model/QRequest.class</exclude>
-                                <exclude>/ru/practicum/shareit/user/model/QUser.class</exclude>
+                                <exclude>/ru/practicum/booking/model/QBooking.class</exclude>
+                                <exclude>/ru/practicum/item/comment/model/QComment.class</exclude>
+                                <exclude>/ru/practicum/item/model/QItem.class</exclude>
+                                <exclude>/ru/practicum/request/model/QRequest.class</exclude>
+                                <exclude>/ru/practicum/user/model/QUser.class</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
