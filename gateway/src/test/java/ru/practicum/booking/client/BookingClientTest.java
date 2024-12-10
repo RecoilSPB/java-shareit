@@ -8,7 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import ru.practicum.booking.dto.BookItemRequestDto;
+import ru.practicum.booking.dto.BookRequestDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +79,7 @@ class BookingClientTest {
     void testCreateBooking() {
         // Arrange
         long userId = 1L;
-        BookItemRequestDto requestDto = new BookItemRequestDto();
+        BookRequestDto requestDto = new BookRequestDto();
         ResponseEntity<Object> response = new ResponseEntity<>("Booking Created", HttpStatus.CREATED);
 
         when(restTemplate.exchange(

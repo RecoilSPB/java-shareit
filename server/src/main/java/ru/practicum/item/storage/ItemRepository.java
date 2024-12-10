@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.practicum.item.model.Item;
-import ru.practicum.request.model.ItemRequest;
+import ru.practicum.request.model.Request;
 import ru.practicum.user.model.User;
 
 import java.util.List;
@@ -23,5 +23,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "   or upper(i.description) like upper(concat('%', ?1, '%'))")
     List<Item> search(@Param("text") String text, Pageable pageable);
 
-    List<Item> findByRequest(ItemRequest itemRequest);
+    List<Item> findByRequest(Request request);
 }

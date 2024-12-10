@@ -6,7 +6,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
-import ru.practicum.booking.dto.BookItemRequestDto;
+import ru.practicum.booking.dto.BookRequestDto;
 import ru.practicum.client.BaseClient;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class BookingClient extends BaseClient {
         return get("?state={state}&from={from}&size={size}", userId, parameters);
     }
 
-    public ResponseEntity<Object> createBooking(long userId, BookItemRequestDto requestDto) {
+    public ResponseEntity<Object> createBooking(long userId, BookRequestDto requestDto) {
         return post(userId, requestDto);
     }
 

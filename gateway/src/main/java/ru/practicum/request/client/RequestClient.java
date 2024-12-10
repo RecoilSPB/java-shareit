@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.client.BaseClient;
-import ru.practicum.request.dto.ItemRequestDto;
+import ru.practicum.request.dto.RequestDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +25,8 @@ public class RequestClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> addRequest(ItemRequestDto itemRequestDto, long userId) {
-        return post(userId, itemRequestDto);
+    public ResponseEntity<Object> addRequest(RequestDto requestDto, long userId) {
+        return post(userId, requestDto);
     }
 
     public ResponseEntity<Object> getRequestsByUser(long userId) {
@@ -40,7 +40,7 @@ public class RequestClient extends BaseClient {
         return get("/all?from={from}&size={size}", userId, parameters);
     }
 
-    public ResponseEntity<Object> getRequestById(long itemRequestId, long userId) {
-        return get("/" + itemRequestId, userId);
+    public ResponseEntity<Object> getRequestById(long requestId, long userId) {
+        return get("/" + requestId, userId);
     }
 }

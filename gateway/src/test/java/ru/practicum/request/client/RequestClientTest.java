@@ -8,7 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import ru.practicum.request.dto.ItemRequestDto;
+import ru.practicum.request.dto.RequestDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,13 +43,13 @@ class RequestClientTest {
     void testAddRequest() {
         // Arrange
         long userId = 1L;
-        ItemRequestDto itemRequestDto = ItemRequestDto.builder().id(1L).description("description").build();
-        ResponseEntity<Object> response = new ResponseEntity<>(itemRequestDto, HttpStatus.CREATED);
+        RequestDto requestDto = RequestDto.builder().id(1L).description("description").build();
+        ResponseEntity<Object> response = new ResponseEntity<>(requestDto, HttpStatus.CREATED);
         when(restTemplate.exchange(any(String.class), eq(org.springframework.http.HttpMethod.POST), any(), eq(Object.class)))
                 .thenReturn(response);
 
         // Act
-        ResponseEntity<Object> result = requestClient.addRequest(itemRequestDto, userId);
+        ResponseEntity<Object> result = requestClient.addRequest(requestDto, userId);
 
         // Assert
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -123,19 +123,19 @@ class RequestClientTest {
     void testGetRequestById() {
         // Arrange
         long userId = 1L;
-        long itemRequestId = 2L;
+        long requestId = 2L;
         ResponseEntity<Object> response = new ResponseEntity<>("Request Details", HttpStatus.OK);
-        when(restTemplate.exchange(eq("/" + itemRequestId), eq(org.springframework.http.HttpMethod.GET), any(), eq(Object.class)))
+        when(restTemplate.exchange(eq("/" + requestId), eq(org.springframework.http.HttpMethod.GET), any(), eq(Object.class)))
                 .thenReturn(response);
 
         // Act
-        ResponseEntity<Object> result = requestClient.getRequestById(itemRequestId, userId);
+        ResponseEntity<Object> result = requestClient.getRequestById(requestId, userId);
 
         // Assert
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("Request Details", result.getBody());
         verify(restTemplate, times(1)).exchange(
-                eq("/" + itemRequestId),
+                eq("/" + requestId),
                 eq(org.springframework.http.HttpMethod.GET),
                 any(),
                 eq(Object.class)

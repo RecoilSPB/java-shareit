@@ -2,12 +2,9 @@ package ru.practicum.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.user.dto.UserDto;
 import ru.practicum.user.service.UserService;
-import ru.practicum.validation.CreateObject;
-import ru.practicum.validation.UpdateObject;
 
 import java.util.List;
 
@@ -32,13 +29,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto createUser(@Validated(CreateObject.class) @RequestBody UserDto user) {
+    public UserDto createUser(@RequestBody UserDto user) {
         return userService.createUser(user);
     }
 
     @PatchMapping("/{userId}")
     public UserDto updateUser(@PathVariable Long userId,
-                              @Validated(UpdateObject.class) @RequestBody UserDto user) {
+                              @RequestBody UserDto user) {
         return userService.updateUser(user, userId);
     }
 

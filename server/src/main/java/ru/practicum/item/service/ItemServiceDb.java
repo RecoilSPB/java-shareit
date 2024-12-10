@@ -18,12 +18,12 @@ import ru.practicum.item.comment.mapper.CommentMapper;
 import ru.practicum.booking.model.Booking;
 import ru.practicum.item.model.Item;
 import ru.practicum.item.comment.model.Comment;
-import ru.practicum.request.model.ItemRequest;
+import ru.practicum.request.model.Request;
 import ru.practicum.user.model.User;
 import ru.practicum.item.paging.CustomPageRequest;
 import ru.practicum.booking.storage.BookingRepository;
 import ru.practicum.item.comment.storage.CommentRepository;
-import ru.practicum.request.storage.ItemRequestRepository;
+import ru.practicum.request.storage.RequestRepository;
 import ru.practicum.user.storage.UserRepository;
 
 import java.time.LocalDateTime;
@@ -43,7 +43,7 @@ public class ItemServiceDb implements ItemService, CommentService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final BookingRepository bookingRepository;
-    private final ItemRequestRepository requestRepository;
+    private final RequestRepository requestRepository;
 
     @Override
     public List<ItemDto> getItemsByUser(Long userId, Integer from, Integer size) {
@@ -83,11 +83,11 @@ public class ItemServiceDb implements ItemService, CommentService {
         log.info("Получен запрос на добавление вещи");
         itemDto.setOwner(toUserDto(getUser(userId)));
         Long requestId = itemDto.getRequestId();
-        ItemRequest request = requestId != null ? getRequest(requestId) : null;
+        Request request = requestId != null ? getRequest(requestId) : null;
         return ItemMapper.toItemDto(itemRepository.save(ItemMapper.toItem(itemDto, request)));
     }
 
-    private ItemRequest getRequest(Long requestId) {
+    private Request getRequest(Long requestId) {
         return requestRepository.findById(requestId).orElse(null);
     }
 

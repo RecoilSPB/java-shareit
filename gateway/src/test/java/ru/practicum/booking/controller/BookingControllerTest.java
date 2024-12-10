@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import ru.practicum.ShareItGateway;
 import ru.practicum.booking.client.BookingClient;
-import ru.practicum.booking.dto.BookItemRequestDto;
+import ru.practicum.booking.dto.BookRequestDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
@@ -35,7 +35,7 @@ public class BookingControllerTest {
 
     @Test
     public void testCreateBooking() {
-        BookItemRequestDto bookingInputDto = new BookItemRequestDto();
+        BookRequestDto bookingInputDto = new BookRequestDto();
         Long userId = 1L;
         ResponseEntity<Object> expectedResponse = ResponseEntity.ok().build();
 

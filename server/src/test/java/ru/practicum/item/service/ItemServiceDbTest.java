@@ -20,8 +20,8 @@ import ru.practicum.item.comment.storage.CommentRepository;
 import ru.practicum.item.dto.ItemDto;
 import ru.practicum.item.model.Item;
 import ru.practicum.item.storage.ItemRepository;
-import ru.practicum.request.model.ItemRequest;
-import ru.practicum.request.storage.ItemRequestRepository;
+import ru.practicum.request.model.Request;
+import ru.practicum.request.storage.RequestRepository;
 import ru.practicum.user.mapper.UserMapper;
 import ru.practicum.user.model.User;
 import ru.practicum.user.storage.UserRepository;
@@ -55,7 +55,7 @@ public class ItemServiceDbTest {
     private BookingRepository bookingRepository;
 
     @MockBean
-    private ItemRequestRepository requestRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
     private ItemServiceDb itemServiceDb;
@@ -67,7 +67,7 @@ public class ItemServiceDbTest {
     private ItemDto itemDto;
     private Comment comment;
     private CommentDto commentDto;
-    private ItemRequest itemRequest;
+    private Request request;
     private User author;
     private Booking booking;
     private Booking pastBooking;
@@ -127,10 +127,10 @@ public class ItemServiceDbTest {
                 .text("Comment text")
                 .build();
 
-        itemRequest = new ItemRequest();
-        itemRequest.setId(1L);
-        itemRequest.setDescription("Request Описание");
-        itemRequest.setCreated(LocalDateTime.now());
+        request = new Request();
+        request.setId(1L);
+        request.setDescription("Request Описание");
+        request.setCreated(LocalDateTime.now());
 
         booking = new Booking();
         booking.setId(1L);
@@ -211,7 +211,7 @@ public class ItemServiceDbTest {
         itemDto.setRequestId(1L);
 
         when(itemRepository.save(any(Item.class))).thenReturn(item1);
-        when(requestRepository.findById(anyLong())).thenReturn(Optional.of(itemRequest));
+        when(requestRepository.findById(anyLong())).thenReturn(Optional.of(request));
         ItemDto result = itemServiceDb.createItem(1L, itemDto);
 
         assertEquals(1L, result.getId());

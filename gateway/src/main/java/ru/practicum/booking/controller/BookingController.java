@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.booking.client.BookingClient;
-import ru.practicum.booking.dto.BookItemRequestDto;
+import ru.practicum.booking.dto.BookRequestDto;
 
 
 @Controller
@@ -22,7 +22,7 @@ public class BookingController {
 
     @PostMapping
     public ResponseEntity<Object> createBooking(
-            @Valid @RequestBody BookItemRequestDto bookingInputDto,
+            @Valid @RequestBody BookRequestDto bookingInputDto,
             @RequestHeader("X-Sharer-User-Id") Long userId) {
         log.info("Запрос на создание бронирования - {}", bookingInputDto);
         return bookingClient.createBooking(userId, bookingInputDto);
